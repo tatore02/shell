@@ -72,26 +72,7 @@ char **lsh_get_args(char* line) {
         exit(EXIT_FAILURE);
     }
 
-    token = strtok(line, LSH_TOK_DELIM);
-    while (token != NULL) {
-        tokens[index] = token;
-        index++;
-
-        if (index >= bufsize) {
-            bufsize += LSH_TOK_BUFSIZE;
-            tokens = realloc(tokens, sizeof(char*) * bufsize);
-            if (tokens == 0) {
-                fprintf(stderr, "%s\n", "lsh: allocation error");
-                exit(EXIT_FAILURE);
-            }
-        }
-        token = strtok(NULL, LSH_TOK_DELIM);
-    }
-
-    /*
-    REIMPLEMENTATION WITH strsep FUNCTION
-    char *p_line = line;
-    while ((token = strsep(&p_line, LSH_TOK_DELIM))) {
+    while ((token = strsep(&line, LSH_TOK_DELIM))) {
         tokens[index] = token;
         index++;
 
@@ -104,7 +85,6 @@ char **lsh_get_args(char* line) {
             }
         }
     }
-    */
 
     tokens[index] = NULL;
     return tokens;
